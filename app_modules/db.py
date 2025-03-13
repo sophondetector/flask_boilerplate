@@ -1,11 +1,14 @@
 from sqlalchemy import create_engine, text
 
-USERNAME = "wade"
-HOSTNAME = "localhost"
-DBNAME = "old"
+
+class _DB_CONFIG:
+    USER = "wade"
+    HOST = "localhost"
+    DB = "old"
+
 
 _engine = sync_engine = create_engine(
-    f"postgresql+psycopg://{USERNAME}@{HOSTNAME}/{DBNAME}"
+    f"postgresql+psycopg://{_DB_CONFIG.USER}@{_DB_CONFIG.HOST}/{_DB_CONFIG.DB}"
 )
 
 
@@ -16,5 +19,5 @@ _engine = sync_engine = create_engine(
 
 if __name__ == '__main__':
     with _engine.connect() as conn:
-        result = conn.execute(text("select 'hello world'"))
+        result = conn.execute(text("select * from addresses limit 5"))
         print(result.all())
