@@ -6,8 +6,8 @@ submitBut.addEventListener('click', async (event) => {
 	output.innerHTML = ''
 	const query = input.value
 	if (!query) {
-		console.log('NOTHING TO SUBMIT')
-		output.textContent = 'NOTHING TO SUBMIT'
+		console.log('ERROR: Blank Submission')
+		output.textContent = 'ERROR: Blank Submission'
 		return
 	}
 
@@ -17,7 +17,15 @@ submitBut.addEventListener('click', async (event) => {
 		const resp = await fetch('/endpoint?' + params.toString())
 		const respJson = await resp.json()
 		const jsonText = respJson['text']
-		output.textContent = jsonText
+
+		console.log(jsonText)
+
+		for (const ite of jsonText) {
+			const p = document.createElement('p')
+			p.textContent = ite
+			output.appendChild(p)
+		}
+
 	} catch (err) {
 		console.log(`ERROR: ${err}`)
 	}
