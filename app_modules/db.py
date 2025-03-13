@@ -12,12 +12,25 @@ _engine = sync_engine = create_engine(
 )
 
 
-# def get_cxn():
-#     global _cxn
-#     return _cxn
+def do_address_query(input: str) -> list[str]:
+    query = f'''
+    select address from addresses
+    where address like \'%{input}%\';
+    '''
+
+    with _engine.connect() as conn:
+        result = conn.execute(text(query))
+        rows = result.all()
+        res = [ite[0] for ite in rows]
+
+    return res
 
 
 if __name__ == '__main__':
-    with _engine.connect() as conn:
-        result = conn.execute(text("select * from addresses limit 5"))
-        print(result.all())
+    res = do_address_query('New')
+    for ite in res:
+        print(ite)
+
+    # with _engine.connect() as conn:
+    #     result = conn.execute(text("select * from addresses limit 5"))
+    #     print(result.all())

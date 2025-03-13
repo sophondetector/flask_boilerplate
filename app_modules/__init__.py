@@ -1,2 +1,6 @@
+from .db import do_address_query
+
+
 def make_response(input: str) -> dict:
-    return dict(text=f'input was {input}')
+    res = do_address_query(input)
+    return dict(text=res)
